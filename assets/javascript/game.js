@@ -1,11 +1,11 @@
-//create object for the game
+//create object for the game?
 //add characters
     //add health points
     //add attack power
     //add counter attack power
 
-//add attacker
-//add defender
+//set attacker
+//set defender
 
 //method for attack
 //method for counter
@@ -16,3 +16,8 @@
 //add kill state
 
 //add win state
+
+//add reset
+
+
+$('.your-character').append('<h2>Something</h2>')
