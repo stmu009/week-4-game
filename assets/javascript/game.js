@@ -4,25 +4,29 @@ var game = {
       displayName: "Luke Skywalker",
       attackPower: 8,
       counterAttack: 6,
-      health: 156
+      health: 156,
+      image: 'assets/images/luke.png',
     },
     masteryoda: {
       displayName: "Master Yoda",
       attackPower: 8,
       counterAttack: 10,
-      health: 160
+      health: 160,
+      image: 'assets/images/yoda.png',
     },
     darthvader: {
       displayName: "Darth Vader",
       attackPower: 10,
       counterAttack: 12,
-      health: 180
+      health: 180,
+      image: 'assets/images/vader.png',
     },
     darthsidious: {
       displayName: "Darth Sidious",
       attackPower: 8,
       counterAttack: 10,
-      health: 140
+      health: 140,
+      image: 'assets/images/sidious.png',
     }
   },
   message: '',
@@ -49,6 +53,8 @@ var game = {
         key +
         '" class="characters-available">' +
         game.charactersAvailable[key].displayName +
+        '<img class="character-image" src= "' + game.charactersAvailable[key].image + '"></img>' +
+        '<h3 class="health">' + game.charactersAvailable[key].health + '</h3>' +
         "</div>"
       );
     });
@@ -59,11 +65,13 @@ var game = {
       selectedCharacter = this;
       $.each(game.charactersAvailable, function (key, value) {
         if (key == selectedCharacter.id) {
+          game.attacker.health = game.charactersAvailable[selectedCharacter.id].health
           $("#your-character-title").after(
             '<div class="selected-character" id="' +
             key +
             '" >' +
             game.charactersAvailable[key].displayName +
+            '<img class="character-image" src= "' + game.charactersAvailable[key].image + '"></img>' +
             "</div>"
           );
         } else {
@@ -72,6 +80,7 @@ var game = {
             key +
             '">' +
             game.charactersAvailable[key].displayName +
+            '<img class="character-image" src= "' + game.charactersAvailable[key].image + '"></img>' +
             "</div>"
           );
         }
@@ -79,7 +88,6 @@ var game = {
       game.attacker.alive = true
       game.attacker.attackerID = selectedCharacter.id
       game.attacker.attackPower = game.charactersAvailable[selectedCharacter.id].attackPower
-      game.attacker.health = game.charactersAvailable[selectedCharacter.id].health
       game.hideCharactersAvailable()
       $('.your-character-section').show()
       $('.enemies-available-section').show()
@@ -105,7 +113,9 @@ var game = {
             game.defender.health = game.charactersAvailable[key].health
             game.defender.counterAttack = game.charactersAvailable[key].counterAttack
             $(".defense-section").append(
-              '<div class="selected-defender" id="">' + game.charactersAvailable[key].displayName + "</div>"
+              '<div class="selected-defender" id="">' + game.charactersAvailable[key].displayName +
+              '<img class="character-image" src= "' + game.charactersAvailable[key].image + '"></img>' +
+              "</div>"
             );
           }
 
@@ -149,6 +159,12 @@ var game = {
         } else {
           game.defender.health = game.defender.health - game.attacker.attackPower
           game.attacker.health = game.attacker.health - game.defender.counterAttack
+          if (game.defender.health < 0) {
+            game.defender.health = 0
+          }
+          if (game.attacker.health < 0) {
+            game.attacker.health = 0
+          }
           game.attacker.attackPower = Math.floor(game.attacker.attackPower * 1.2)
           game.updateStats()
         }
@@ -156,11 +172,10 @@ var game = {
     })
   },
   updateStats: function (message) {
-      $('#battle-info-section').show()
-      $('#attacker-health').text(game.attacker.health)
-      $('#defender-health').text(game.defender.health)
-    } 
-    ,
+    $('#battle-info-section').show()
+    $('#attacker-health').text(game.attacker.health)
+    $('#defender-health').text(game.defender.health)
+  },
   wins: 0,
   losses: 0,
   restart: function () {

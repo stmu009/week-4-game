@@ -24,6 +24,17 @@ h2, h3, p, div{
     color: white;
 }
 
+.character-image{
+    width: 50px;
+    display: block;
+    border: solid 1px gold;
+    margin-left: 2rem;
+}
+
+.health{
+    margin-left: 2rem;
+}
+
 
 
 
