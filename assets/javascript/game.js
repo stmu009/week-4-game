@@ -25,8 +25,24 @@ var game = {
       health: 140
     }
   },
+  message: '',
+  startGame: function () {
+    $('.characters-section').show()
+    $('div').remove('.characters-available')
+    $('div').remove('.selected-character')
+    $('.selected-defender').remove()
+    $('.your-character-section').hide()
+    $('.enemies-available-section').hide()
+    $('.defense-section').hide()
+    $('.fight-section').hide()
+    $('.restart-section').hide()
+    $('#battle-info-section').hide()
+    $('#attacker-death').hide()
+    $('#defender-death').hide()
+    game.showCharactersAvailable()
+
+  },
   showCharactersAvailable: function () {
-    console.log('Show CHARS')
     $.each(game.charactersAvailable, function (key, value) {
       $(".characters-section").append(
         '<div id="' +
@@ -60,10 +76,13 @@ var game = {
           );
         }
       });
+      game.attacker.alive = true
       game.attacker.attackerID = selectedCharacter.id
       game.attacker.attackPower = game.charactersAvailable[selectedCharacter.id].attackPower
       game.attacker.health = game.charactersAvailable[selectedCharacter.id].health
       game.hideCharactersAvailable()
+      $('.your-character-section').show()
+      $('.enemies-available-section').show()
 
     });
   },
@@ -79,6 +98,7 @@ var game = {
       selectedDefender = this
       if (game.defender.alive === false) {
         $('.selected-defender').remove()
+        $('.defense-section').show()
         $.each(game.charactersAvailable, function (key, value) {
           if (key == selectedDefender.id) {
             game.defender.defenderID = selectedDefender.id
@@ -88,8 +108,14 @@ var game = {
               '<div class="selected-defender" id="">' + game.charactersAvailable[key].displayName + "</div>"
             );
           }
+
+          $('.fight-section').show()
+          $('.enemies-available-section').hide()
+          $('#attacker-death').hide()
+          $('#defender-death').hide()
           game.defender.alive = true
           game.removeDefenderSelected(selectedDefender.id)
+
         })
         game.attack()
       }
@@ -106,23 +132,34 @@ var game = {
       if (game.defender.alive == true && game.attacker.alive == true) {
         if (game.defender.health <= 0) {
           game.defender.alive = false
-          console.log('Defender is dead')
+          $('#defender-death').show()
+          $('.fight-section').hide()
+          $('.enemies-available-section').show()
+          if ($('.enemies-available').length === 0) {
+            $('.restart-section').show()
+            game.restart()
+          }
         } else if ((game.attacker.health <= 0)) {
           game.attacker.alive = false
-          console.log('Attacker is dead')
+          $('#attacker-death').show()
+          $('.fight-section').hide()
+          $('.restart-section').show()
           game.restart()
         } else {
           game.defender.health = game.defender.health - game.attacker.attackPower
           game.attacker.health = game.attacker.health - game.defender.counterAttack
           game.attacker.attackPower = Math.floor(game.attacker.attackPower * 1.2)
-          console.log('defender health:' + game.defender.health)
-          console.log('attacker health:' + game.attacker.health)
+          game.updateStats()
         }
       }
     })
   },
-  updateStats: function () {}//TODO
-  ,
+  updateStats: function (message) {
+      $('#battle-info-section').show()
+      $('#attacker-health').text(game.attacker.health)
+      $('#defender-health').text(game.defender.health)
+    } 
+    ,
   wins: 0,
   losses: 0,
   restart: function () {
@@ -133,15 +170,26 @@ var game = {
         $('div').remove('.characters-available')
         $('div').remove('.selected-character')
         $('.selected-defender').remove()
+        $('.your-character-section').hide()
+        $('.enemies-available-section').hide()
+        $('.defense-section').hide()
+        $('.fight-section').hide()
+        $('.restart-section').hide()
+        $('#battle-info-section').hide()
+        $('#attacker-death').hide()
+        $('#defender-death').hide()
         game.showCharactersAvailable()
         game.attacker = {}
-        game.defender = {}
+        game.defender = {
+          alive: false
+        }
         wins = 0
         losses = 0
-      } 
-    )}
+      }
+    )
+  }
 };
 $(document).ready(function () {
-  game.showCharactersAvailable();
+  game.startGame();
   game.selectDefender()
 });
