@@ -18,8 +18,8 @@ var game = {
       counterAttack: 12,
       health: 180
     },
-    emperorpalpatine: {
-      displayName: "Emperor Palpatine",
+    darthsidious: {
+      displayName: "Darth Sidious",
       attackPower: 8,
       counterAttack: 10,
       health: 140
@@ -113,6 +113,7 @@ var game = {
           $('.enemies-available-section').hide()
           $('#attacker-death').hide()
           $('#defender-death').hide()
+          $('#defender-health').text(game.defender.health)
           game.defender.alive = true
           game.removeDefenderSelected(selectedDefender.id)
 

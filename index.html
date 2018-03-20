@@ -15,7 +15,7 @@
 </head>
 
 <body>
-    <div class="container-fluid">
+    <div class="container-fluid" id="game-container">
         <h1 class="game-title">
             Star Wars RPG!
         </h1>
@@ -24,21 +24,24 @@
         </div>
         <div class="container-fluid your-character-section">
             <h2 id="your-character-title">You Chose</h2>
+            <h3 class="" id="attacker-health"></h3>
         </div>
         <div class="container-fluid enemies-available-section">
             <h2 id="enemies-available-title">Pick Your Next Foe</h2>
         </div>
-        <div class="container-fluid fight-section">
-            <button id="attack-button">ATTACK</button>
-        </div>
+        
         <div class="container-fluid defense-section">
             <h2 class="defense-titel">Defender</h2>
+            
         </div>
         <div class="container-fluid" id="battle-info-section">
-            <h3 class="" id="attacker-health"></h3>
+            
             <h3 class="" id="defender-health"></h3>
-            <h3 class="" id="attacker-death">Next time have faith in the force</h3>
+            <h3 class="" id="attacker-death">In the force, you must find balance...</h3>
             <h3 class="" id="defender-death">Your enemy has been defeated</h3>
+        </div>
+        <div class="container-fluid fight-section">
+            <button id="attack-button">ATTACK</button>
         </div>
         <div class="container-fluid restart-section">
             <button id="restart-button">RESTART</button>

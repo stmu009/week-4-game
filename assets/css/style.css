@@ -3,5 +3,27 @@
     
 }
 
+#game-container{
+    background-image: url('../images/trooper.jpg');
+    background-size: 100%;
+    height: 100%;
+    background-color: black;
+    background-repeat: no-repeat;
+}
+
+body{
+    height: 100%;
+}
+
+html{
+    height: 100%;
+  
+}
+
+h2, h3, p, div{
+    color: white;
+}
+
+
 
 
